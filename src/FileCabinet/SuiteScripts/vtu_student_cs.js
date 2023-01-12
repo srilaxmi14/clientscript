@@ -19,7 +19,7 @@ define(['N/record','N/url'],
          * @since 2015.2
          */
         function pageInit(scriptContext) {
-            alert("fill the fields");
+            // alert("fill the fields");
             log.debug("hello testing");
             var record = scriptContext.currentRecord;
             var percent = record.getField({
@@ -56,13 +56,7 @@ define(['N/record','N/url'],
 
                 
 
-                var redirectUrl = url.resolveRecord({
-                    recordType: 'customrecord_wipfli_vtu_student',
-                    isEditMode: false
-                });
-                redirectUrl = redirectUrl + '&studentid=' + nameVal;
-                console.log(redirectUrl);
-                window.open(redirectUrl, '_self');
+               
 
             }
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_student_active') {
