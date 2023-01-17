@@ -3,11 +3,11 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/record','N/url'],
+define(['N/record','N/url', 'N/search'],
     /**
      * @param{record} record
      */
-    function (record,url) {
+    function (record,url,search) {
 
         /**
          * Function to be executed after page is initialized.
@@ -50,15 +50,33 @@ define(['N/record','N/url'],
                     value: ''
                 });
 
+                
+
+            }
+
+            if(scriptContext.fieldId == 'custrecord_wipfli_vtu_name')
+            {
                 var nameVal=record.getValue({
                     fieldId: 'custrecord_wipfli_vtu_name'
                 });
 
+                var searchval=search.lookupFields({
+                    type:'customrecord_wipfli_student',
+                    id:nameVal,
+                    column:['custrecord_wipfli_student_ages']
+    
+                })
+
+                var searchField=searchval['custrecord_wipfli_student_ages']
+    
+                record.setValue({
+                    fieldId: 'custrecord_wipfli_student_age',
+                    value:searchField
+        
+                })
                 
-
-               
-
             }
+
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_student_active') {
                 var active = record.getValue({
                     fieldId: 'custrecord_wipfli_vtu_student_active'
