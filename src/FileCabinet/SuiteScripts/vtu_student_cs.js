@@ -3,11 +3,11 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/record','N/url', 'N/search'],
+define(['N/record', 'N/url', 'N/search'],
     /**
      * @param{record} record
      */
-    function (record,url,search) {
+    function (record, url, search) {
 
         /**
          * Function to be executed after page is initialized.
@@ -50,31 +50,49 @@ define(['N/record','N/url', 'N/search'],
                     value: ''
                 });
 
-                
+
 
             }
 
-            if(scriptContext.fieldId == 'custrecord_wipfli_vtu_name')
-            {
-                var nameVal=record.getValue({
+            if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
+                var nameval = record.getValue({
                     fieldId: 'custrecord_wipfli_vtu_name'
                 });
 
                 var searchval=search.lookupFields({
                     type:'customrecord_wipfli_student',
-                    id:nameVal,
-                    column:['custrecord_wipfli_student_ages']
+                    id:nameval,
+                    columns:['custrecord_wipfli_student_ages','custrecord_wipfli_student_email','custrecord_wipfli_student_phno']
     
                 })
+                log.debug(searchval);
 
                 var searchField=searchval['custrecord_wipfli_student_ages']
+                
+                var searchemail=searchval['custrecord_wipfli_student_email']
+                var searchphno=searchval['custrecord_wipfli_student_phno']
+
+                log.debug(searchField);
     
                 record.setValue({
                     fieldId: 'custrecord_wipfli_student_age',
                     value:searchField
         
                 })
-                
+
+         
+                record.setValue({
+                    fieldId: 'custrecord_wipfli_vtu_email',
+                    value:searchemail
+        
+                })
+                record.setValue({
+                    fieldId: 'custrecord_wipfli_vtu_phno',
+                    value:searchphno
+        
+                })
+
+
             }
 
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_student_active') {
@@ -104,7 +122,7 @@ define(['N/record','N/url', 'N/search'],
                 alert("please enter the phone number");
                 return false;
             }
-                return true;
+            return true;
 
         }
 

@@ -61,10 +61,6 @@ define(['N/record', 'N/search'],
                 fieldId:'custrecord_wipfli_vtu_name'
             })
 
-            var age=currecord.getValue({
-                fieldId:' custrecord_wipfli_student_age'
-            })
-
             record.submitFields({
                 type: 'customrecord_wipfli_student',
                 id: name,
@@ -72,14 +68,8 @@ define(['N/record', 'N/search'],
                     'custrecord_wipfli_student_vtu': recid
                 } 
             })
-            record.submitFields({
-                type:'customrecord_wipfli_vtu_student',
-                id:age,
-                values:{
-                    'custrecord_wipfli_student_age':  recid 
-                }
-            })
         }
+
         
         return {
             beforeLoad,
