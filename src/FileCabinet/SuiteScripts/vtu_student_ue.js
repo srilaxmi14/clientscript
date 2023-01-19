@@ -22,15 +22,18 @@ define(['N/record', 'N/search'],
             var record=scriptContext.newRecord;
 
             var mode=scriptContext.type;
-            if(mode=='view')
+
+            if(mode=='edit')
             {
+                
                 scriptContext.form.addButton({
                     id: 'custpage_button',
-                    label: 'Print',
-                    functionName: ''
+                    label: 'message',
+                    functionName:'message()'
                 })
-
+                scriptContext.form.clientScriptModulePath = './vtu_student_cs.js';
             }
+
 
         }
 
@@ -52,7 +55,23 @@ define(['N/record', 'N/search'],
             
             })
 
-        }
+        //     var customrecord_wipfli_studentSearchObj = search.create({
+        //         type: "customrecord_wipfli_student",
+        //         filters:
+        //         [
+        //            ["name","is","Hima"]
+        //         ],
+        //         columns:[]
+        //      });
+        //      var searchResultCount = customrecord_wipfli_studentSearchObj.runPaged().count;
+            
+             
+        //      /*
+        //      customrecord_wipfli_studentSearchObj.id="customsearch1674130367721";
+        //      customrecord_wipfli_studentSearchObj.title="Custom Student Records Search (copy)";
+        //      var newSearchId = customrecord_wipfli_studentSearchObj.save();
+        //      */
+            }
 
         const afterSubmit = (scriptContext) => {
             var currecord=scriptContext.newRecord;

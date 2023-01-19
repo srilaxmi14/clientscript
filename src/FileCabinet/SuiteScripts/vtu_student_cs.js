@@ -3,11 +3,11 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/record', 'N/url', 'N/search'],
+define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
     /**
      * @param{record} record
      */
-    function (record, url, search) {
+    function (record, url, search, currentRecord,format) {
 
         /**
          * Function to be executed after page is initialized.
@@ -59,38 +59,68 @@ define(['N/record', 'N/url', 'N/search'],
                     fieldId: 'custrecord_wipfli_vtu_name'
                 });
 
-                var searchval=search.lookupFields({
-                    type:'customrecord_wipfli_student',
-                    id:nameval,
-                    columns:['custrecord_wipfli_student_ages','custrecord_wipfli_student_email','custrecord_wipfli_student_phno']
-    
+                var searchval = search.lookupFields({
+                    type: 'customrecord_wipfli_student',
+                    id: nameval,
+                    columns: ['custrecord_wipfli_student_ages', 'custrecord_wipfli_student_email', 'custrecord_wipfli_student_phno', 'custrecord_wipfli_student_dob']
+
                 })
                 log.debug(searchval);
 
-                var searchField=searchval['custrecord_wipfli_student_ages']
-                
-                var searchemail=searchval['custrecord_wipfli_student_email']
-                var searchphno=searchval['custrecord_wipfli_student_phno']
+                var searchField = searchval['custrecord_wipfli_student_ages']
+                var searchemail = searchval['custrecord_wipfli_student_email']
+                var searchphno = searchval['custrecord_wipfli_student_phno']
+                var searchdob = searchval['custrecord_wipfli_student_dob']
+               console.log("date format:",searchdob);
+               log.debug("date:",searchdob)
+                var date = new Date(searchdob)
 
+              
                 log.debug(searchField);
-    
+
                 record.setValue({
                     fieldId: 'custrecord_wipfli_student_age',
-                    value:searchField
-        
+                    value: searchField
+
                 })
 
-         
+
                 record.setValue({
                     fieldId: 'custrecord_wipfli_vtu_email',
-                    value:searchemail
-        
+                    value: searchemail
+
                 })
                 record.setValue({
                     fieldId: 'custrecord_wipfli_vtu_phno',
-                    value:searchphno
-        
+                    value: searchphno
+
                 })
+                record.setValue({
+                    fieldId: 'custrecord_wipfli_vtu_dob',
+                    value: date
+
+                })
+
+
+            }
+
+            if (scriptContext.fieldId == 'custrecord_wipfli_student_fn'){
+                var firstName=record.getValue({
+                   fieldId:'custrecord_wipfli_student_fn' 
+                });
+
+                var lastName=record.getValue({
+                    fieldId:'custrecord_wipfli_student_ln' 
+                 })
+
+                 var fullname=firstName+""+lastName;
+
+                 record.setValue({
+                    fieldId:'name',
+                    value:fullname
+                })
+
+
 
 
             }
@@ -154,11 +184,27 @@ define(['N/record', 'N/url', 'N/search'],
 
         }
 
+        function message() {
+            var record = currentRecord.get();
+            var nameval = record.getText({
+                fieldId: 'custrecord_wipfli_vtu_name'
+            });
+            console.log("name:",nameval);
+
+
+            record.setValue({
+                fieldId: 'custrecord_wipfli_vtu_msg',
+                value: 'Hello '+nameval+',All the best for your academics'
+
+            })
+        }
+
         return {
             pageInit: pageInit,
             fieldChanged: fieldChanged,
             saveRecord: saveRecord,
-            validateField: validateField
+            validateField: validateField,
+            message:message
 
         };
 
