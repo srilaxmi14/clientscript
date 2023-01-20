@@ -104,27 +104,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
 
             }
 
-            if (scriptContext.fieldId == 'custrecord_wipfli_student_fn'){
-                var firstName=record.getValue({
-                   fieldId:'custrecord_wipfli_student_fn' 
-                });
-
-                var lastName=record.getValue({
-                    fieldId:'custrecord_wipfli_student_ln' 
-                 })
-
-                 var fullname=firstName+""+lastName;
-
-                 record.setValue({
-                    fieldId:'name',
-                    value:fullname
-                })
-
-
-
-
-            }
-
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_student_active') {
                 var active = record.getValue({
                     fieldId: 'custrecord_wipfli_vtu_student_active'
@@ -139,6 +118,8 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
                     percent.isDisabled = true;
                 }
             }
+
+
         }
 
 

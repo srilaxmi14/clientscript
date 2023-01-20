@@ -55,22 +55,24 @@ define(['N/record', 'N/search'],
             
             })
 
-        //     var customrecord_wipfli_studentSearchObj = search.create({
-        //         type: "customrecord_wipfli_student",
-        //         filters:
-        //         [
-        //            ["name","is","Hima"]
-        //         ],
-        //         columns:[]
-        //      });
-        //      var searchResultCount = customrecord_wipfli_studentSearchObj.runPaged().count;
             
-             
-        //      /*
-        //      customrecord_wipfli_studentSearchObj.id="customsearch1674130367721";
-        //      customrecord_wipfli_studentSearchObj.title="Custom Student Records Search (copy)";
-        //      var newSearchId = customrecord_wipfli_studentSearchObj.save();
-        //      */
+
+             var customrecord_wipfli_studentSearchObj = search.create({
+                type: "customrecord_wipfli_student",
+                filters:
+                [
+                   ["custrecord_wipfli_student_fn","is","rajesh"], 
+                   "AND", 
+                   ["custrecord_wipfli_student_ln","is","shetty"]
+                ],
+                columns:
+                [
+                   search.createColumn({name: "custrecord_wipfli_student_fn", label: "First name"}),
+                   search.createColumn({name: "custrecord_wipfli_student_ln", label: "last name"})
+                ]
+             });
+             var searchResultCount = customrecord_wipfli_studentSearchObj.runPaged().count;
+             log.debug("customrecord_wipfli_studentSearchObj result count",searchResultCount);
             }
 
         const afterSubmit = (scriptContext) => {
