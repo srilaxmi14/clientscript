@@ -17,16 +17,16 @@ define(['N/record','N/search'],
          * @since 2015.2
          */
         const beforeLoad = (scriptContext) => {
-            var mode=scriptContext.type;
-            if(mode=='view')
-            {
-                scriptContext.form.addButton({
-                    id: 'custpage_button',
-                    label: 'Print',
-                    functionName: ''
-                })
+            // var mode=scriptContext.type;
+            // if(mode=='view')
+            // {
+            //     scriptContext.form.addButton({
+            //         id: 'custpage_button',
+            //         label: 'Print',
+            //         functionName: ''
+            //     })
 
-            }
+            // }
 
         }
 
@@ -50,28 +50,28 @@ define(['N/record','N/search'],
             //     fieldId: 'custrecord_wipfli_student_ln'
             // })
 
-            var fullname=record.getValue({
-                fieldId: 'name'
-            })
-            // console.log(fullname);
+            // var fullname=record.getValue({
+            //     fieldId: 'name'
+            // })
+            // // console.log(fullname);
 
-            var customrecord_wipfli_studentSearchObj = search.create({
-                type: "customrecord_wipfli_student",
-                filters:
-                [
-                   ["name","is",fullname]
-                ],
+            // var customrecord_wipfli_studentSearchObj = search.create({
+            //     type: "customrecord_wipfli_student",
+            //     filters:
+            //     [
+            //        ["name","is",fullname]
+            //     ],
             
-                columns:[
-                    search.createColumn({name: "name", label: "name"}),
-                ]
-             });
-             var searchResultCount = customrecord_wipfli_studentSearchObj.runPaged().count;
-             log.debug("name count",searchResultCount);
-             if(searchResultCount>0)
-             {
-                alert("Person already exists");
-             }
+            //     columns:[
+            //         search.createColumn({name: "name", label: "name"}),
+            //     ]
+            //  });
+            //  var searchResultCount = customrecord_wipfli_studentSearchObj.runPaged().count;
+            //  log.debug("name count",searchResultCount);
+            //  if(searchResultCount>0)
+            //  {
+            //     alert("Person already exists");
+            //  }
 
 
             // var customrecord_wipfli_studentSearchObj = search.create({
