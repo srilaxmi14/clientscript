@@ -19,7 +19,6 @@ define(['N/record', 'N/search'],
          */
         const beforeLoad = (scriptContext) => {
             log.debug("testing");
-            var record=scriptContext.newRecord;
 
             var mode=scriptContext.type;
 
@@ -31,9 +30,8 @@ define(['N/record', 'N/search'],
                     label: 'message',
                     functionName:'message()'
                 })
-                scriptContext.form.clientScriptModulePath = './vtu_student_cs.js';
+                scriptContext.form.clientScriptModulePath = './biodata_cs.js';
             }
-
 
         }
 
@@ -54,25 +52,6 @@ define(['N/record', 'N/search'],
                 value:total
             
             })
-
-            
-
-             var customrecord_wipfli_studentSearchObj = search.create({
-                type: "customrecord_wipfli_student",
-                filters:
-                [
-                   ["custrecord_wipfli_student_fn","is","rajesh"], 
-                   "AND", 
-                   ["custrecord_wipfli_student_ln","is","shetty"]
-                ],
-                columns:
-                [
-                   search.createColumn({name: "custrecord_wipfli_student_fn", label: "First name"}),
-                   search.createColumn({name: "custrecord_wipfli_student_ln", label: "last name"})
-                ]
-             });
-             var searchResultCount = customrecord_wipfli_studentSearchObj.runPaged().count;
-             log.debug("customrecord_wipfli_studentSearchObj result count",searchResultCount);
             }
 
         const afterSubmit = (scriptContext) => {
