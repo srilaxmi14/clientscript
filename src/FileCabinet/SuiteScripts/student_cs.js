@@ -25,8 +25,6 @@ define(['N/record', 'N/search', 'N/currentRecord'],
         function pageInit(scriptContext) {
             pageMode=scriptContext.mode;
 
-
-
         }
 
         /**

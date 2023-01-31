@@ -1,13 +1,13 @@
 /**
  * @NApiVersion 2.x
  * @NScriptType ClientScript
- * @NModuleScope SameAccountz
+ * @NModuleScope SameAccount
  */
-define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
+define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
     /**
      * @param{record} record
      */
-    function (record, url, search, currentRecord,format) {
+    function (record, url, search, currentRecord, format) {
 
         /**
          * Function to be executed after page is initialized.
@@ -24,7 +24,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
                 fieldId: 'custrecord_wipfli_vtu_score'
             })
             percent.isDisabled = true;
-          
         }
 
         /**
@@ -43,6 +42,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
         function fieldChanged(scriptContext) {
             console.log(scriptContext);
             autoPopulate(scriptContext);
+
             var record = scriptContext.currentRecord;
 
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_student_active') {
@@ -59,8 +59,83 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
                     percent.isDisabled = true;
                 }
             }
-            
-           
+
+            if (scriptContext.fieldId == 'custrecord_wipfli_subject_external') {
+                var internalMarks = record.getCurrentSublistValue({
+                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                    fieldId: 'custrecord_wipfli_subject_ie'
+                })
+
+                var externalMarks = record.getCurrentSublistValue({
+                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                    fieldId: 'custrecord_wipfli_subject_external'
+                })
+
+                var total = internalMarks + externalMarks;
+
+                record.setCurrentSublistValue({
+                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                    fieldId: 'custrecord_wipfli_subject_total',
+                    value: total,
+                })
+
+            }
+
+            gradeCalculation(scriptContext);
+
+
+
+        }
+
+        function gradeCalculation(scriptContext) {
+            var record = currentRecord.get();
+            if (scriptContext.fieldId == 'custrecord_wipfli_subject_external') {
+                var grade = record.getCurrentSublistValue({
+                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                    fieldId: 'custrecord_wipfli_subject_total'
+                })
+                console.log("grade", grade);
+
+                if (grade < 45) {
+                    record.setCurrentSublistValue({
+                        sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                        fieldId: 'custrecord_wipfli_subject_grade',
+                        value: 'fail',
+                    })
+
+                }
+
+                else if (grade >= 45 && grade <= 59) {
+                    record.setCurrentSublistValue({
+                        sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                        fieldId: 'custrecord_wipfli_subject_grade',
+                        value: 'pass',
+
+                    })
+
+                }
+                else if (grade >= 60 && grade <= 70) {
+                    record.setCurrentSublistValue({
+                        sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                        fieldId: 'custrecord_wipfli_subject_grade',
+                        value: 'firstclass',
+
+                    })
+
+                }
+                else if (grade > 70) {
+                    record.setCurrentSublistValue({
+                        sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                        fieldId: 'custrecord_wipfli_subject_grade',
+                        value: 'distinction',
+
+                    })
+
+                }
+
+
+
+            }
         }
 
 
@@ -74,8 +149,15 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
                 alert("please enter the phone number");
                 return false;
             }
+            var linecount = Record.getLineCount({
+                sublistId: 'recmachcustrecord_wipfli_subject_ref'
+            })
+            console.log("linecount", linecount);
+            if (linecount <= 0) {
+                alert("add atleast one line of subject");
+                return false;
+            }
             return true;
-
         }
 
 
@@ -84,74 +166,138 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord','N/format'],
             var nameval = record.getText({
                 fieldId: 'custrecord_wipfli_vtu_name'
             });
-            console.log("name:",nameval);
+            console.log("name:", nameval);
 
 
             record.setValue({
                 fieldId: 'custrecord_wipfli_vtu_msg',
-                value: 'Hello '+nameval+',All the best for your academics'
+                value: 'Hello ' + nameval + ',All the best for your academics'
 
             })
         }
 
-        function autoPopulate(scriptContext)
-        {  var record = currentRecord.get();
+        // function autoPopulate(scriptContext)
+        // {  var record = currentRecord.get();
+        //     if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
+        //     var nameval = record.getValue({
+        //         fieldId: 'custrecord_wipfli_vtu_name'
+        //     });
+
+        //     var searchval = search.lookupFields({
+        //         type: 'customrecord_wipfli_student',
+        //         id: nameval,
+        //         columns: ['custrecord_wipfli_student_ages', 'custrecord_wipfli_student_email', 'custrecord_wipfli_student_phno', 'custrecord_wipfli_student_dob']
+
+        //     })
+        //     log.debug(searchval);
+
+        //     var searchField = searchval['custrecord_wipfli_student_ages']
+        //     var searchemail = searchval['custrecord_wipfli_student_email']
+        //     var searchphno = searchval['custrecord_wipfli_student_phno']
+        //     var searchdob = searchval['custrecord_wipfli_student_dob']
+        //    console.log("date format:",searchdob);
+        //    log.debug("date:",searchdob)
+        //     var date = new Date(searchdob)
+
+
+        //     log.debug(searchField);
+
+        //     record.setValue({
+        //         fieldId: 'custrecord_wipfli_student_age',
+        //         value: searchField
+
+        //     })
+
+
+        //     record.setValue({
+        //         fieldId: 'custrecord_wipfli_vtu_email',
+        //         value: searchemail
+
+        //     })
+        //     record.setValue({
+        //         fieldId: 'custrecord_wipfli_vtu_phno',
+        //         value: searchphno
+
+        //     })
+        //     record.setValue({
+        //         fieldId: 'custrecord_wipfli_vtu_dob',
+        //         value: date
+
+        //     })
+
+
+        // }}
+
+        function autoPopulate(scriptContext) {
+            var record = scriptContext.currentRecord;
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
-            var nameval = record.getValue({
-                fieldId: 'custrecord_wipfli_vtu_name'
-            });
+                var nameval = record.getText({
+                    fieldId: 'custrecord_wipfli_vtu_name'
+                });
+                console.log(nameval);
+                var customrecord_wipfli_studentSearchObj = search.create({
+                    type: "customrecord_wipfli_student",
+                    filters:
+                        [
+                            ["name", "is", nameval]
+                        ],
+                    columns:
+                        [
+                            search.createColumn({ name: "custrecord_wipfli_student_ages", label: "age" }),
+                            search.createColumn({ name: "custrecord_wipfli_student_email", label: "email" }),
+                            search.createColumn({ name: "custrecord_wipfli_student_phno", label: "phone number" }),
+                            search.createColumn({name:"custrecord_wipfli_student_dob",label:"date of birth"})
+                        ]
+                });
 
-            var searchval = search.lookupFields({
-                type: 'customrecord_wipfli_student',
-                id: nameval,
-                columns: ['custrecord_wipfli_student_ages', 'custrecord_wipfli_student_email', 'custrecord_wipfli_student_phno', 'custrecord_wipfli_student_dob']
+                var searchResult = customrecord_wipfli_studentSearchObj.run();
+                console.log("searchresult", searchResult);
 
-            })
-            log.debug(searchval);
+                var searchObject = searchResult.getRange(0, 1000);
+                console.log("search object",searchObject.length);
+            
 
-            var searchField = searchval['custrecord_wipfli_student_ages']
-            var searchemail = searchval['custrecord_wipfli_student_email']
-            var searchphno = searchval['custrecord_wipfli_student_phno']
-            var searchdob = searchval['custrecord_wipfli_student_dob']
-           console.log("date format:",searchdob);
-           log.debug("date:",searchdob)
-            var date = new Date(searchdob)
+                for (i = 0; i < searchObject.length; i++) {
+                    var searchAge = searchObject[i].getValue({ name: "custrecord_wipfli_student_ages" })
+                    record.setValue({
+                        fieldId: 'custrecord_wipfli_student_age',
+                        value: searchAge
+                    })
 
-          
-            log.debug(searchField);
+                    var searchEmail = searchObject[i].getValue({ name: "custrecord_wipfli_student_email" })
+                    record.setValue({
+                        fieldId: 'custrecord_wipfli_vtu_email',
+                        value: searchEmail
+                    })
 
-            record.setValue({
-                fieldId: 'custrecord_wipfli_student_age',
-                value: searchField
+                    var searchPhone = searchObject[i].getValue({ name: "custrecord_wipfli_student_phno" })
+                    record.setValue({
+                        fieldId: 'custrecord_wipfli_vtu_phno',
+                        value: searchPhone
+                    })
 
-            })
-
-
-            record.setValue({
-                fieldId: 'custrecord_wipfli_vtu_email',
-                value: searchemail
-
-            })
-            record.setValue({
-                fieldId: 'custrecord_wipfli_vtu_phno',
-                value: searchphno
-
-            })
-            record.setValue({
-                fieldId: 'custrecord_wipfli_vtu_dob',
-                value: date
-
-            })
+                    var searchdob = searchObject[i].getValue({ name: "custrecord_wipfli_student_dob" })
+                    var date = new Date(searchdob)
+                    record.setValue({
+                        fieldId: 'custrecord_wipfli_vtu_dob',
+                        value: date
+                    })
+                }
 
 
-        }}
+                // record.setFieldValue('custrecord_wipfli_student_age', searchResult.getValue('custrecord_wipfli_student_ages'));
+
+                return true;
+            }
+        }
+
 
         return {
             pageInit: pageInit,
             fieldChanged: fieldChanged,
             saveRecord: saveRecord,
-            message:message,
-           
+            message: message,
+
         };
 
     });
