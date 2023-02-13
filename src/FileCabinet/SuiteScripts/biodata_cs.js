@@ -176,6 +176,9 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
             })
         }
 
+
+         //by using search.lookupfield
+
         // function autoPopulate(scriptContext)
         // {  var record = currentRecord.get();
         //     if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
@@ -228,10 +231,11 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
 
         // }}
 
+        //by using search.create
         function autoPopulate(scriptContext) {
             var record = scriptContext.currentRecord;
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
-                var nameval = record.getText({
+                var nameval = record.getValue({
                     fieldId: 'custrecord_wipfli_vtu_name'
                 });
                 console.log(nameval);
@@ -239,7 +243,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                     type: "customrecord_wipfli_student",
                     filters:
                         [
-                            ["name", "is", nameval]
+                            ["internalid", "is", nameval]
                         ],
                     columns:
                         [
@@ -283,10 +287,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                         value: date
                     })
                 }
-
-
-                // record.setFieldValue('custrecord_wipfli_student_age', searchResult.getValue('custrecord_wipfli_student_ages'));
-
                 return true;
             }
         }

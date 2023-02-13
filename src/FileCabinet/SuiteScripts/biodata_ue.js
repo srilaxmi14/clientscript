@@ -54,27 +54,27 @@ define(['N/record', 'N/search'],
             })
             }
 
-        const afterSubmit = (scriptContext) => {
-            var currecord=scriptContext.newRecord;
-            var recid=scriptContext.newRecord.id;
-            var name=currecord.getValue({
-                fieldId:'custrecord_wipfli_vtu_name'
-            })
+        // const afterSubmit = (scriptContext) => {
+        //     var currecord=scriptContext.newRecord;
+        //     var recid=scriptContext.newRecord.id;
+        //     var name=currecord.getValue({
+        //         fieldId:'custrecord_wipfli_vtu_name'
+        //     })
 
-            record.submitFields({
-                type: 'customrecord_wipfli_student',
-                id: name,
-                values: {
-                    'custrecord_wipfli_student_vtu': recid
-                } 
-            })
-        }
+        //     record.submitFields({
+        //         type: 'customrecord_wipfli_student',
+        //         id: name,
+        //         values: {
+        //             'custrecord_wipfli_student_vtu': recid
+        //         } 
+        //     })
+        // }
 
         
         return {
             beforeLoad,
             beforeSubmit,
-            afterSubmit
+            // afterSubmit
         }
 
     });
