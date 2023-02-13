@@ -8,7 +8,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
      * @param{record} record
      */
     function (record, url, search, currentRecord, format) {
-
         /**
          * Function to be executed after page is initialized.
          *
@@ -22,7 +21,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
             var record = scriptContext.currentRecord;
             var percent = record.getField({
                 fieldId: 'custrecord_wipfli_vtu_score'
-            })
+            });
             percent.isDisabled = true;
         }
 
@@ -54,8 +53,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                 });
                 if (active) {
                     percent.isDisabled = false;
-                }
-                else {
+                } else {
                     percent.isDisabled = true;
                 }
             }
@@ -64,12 +62,12 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                 var internalMarks = record.getCurrentSublistValue({
                     sublistId: 'recmachcustrecord_wipfli_subject_ref',
                     fieldId: 'custrecord_wipfli_subject_ie'
-                })
+                });
 
                 var externalMarks = record.getCurrentSublistValue({
                     sublistId: 'recmachcustrecord_wipfli_subject_ref',
                     fieldId: 'custrecord_wipfli_subject_external'
-                })
+                });
 
                 var total = internalMarks + externalMarks;
 
@@ -77,14 +75,10 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                     sublistId: 'recmachcustrecord_wipfli_subject_ref',
                     fieldId: 'custrecord_wipfli_subject_total',
                     value: total,
-                })
-
+                });
             }
 
             gradeCalculation(scriptContext);
-
-
-
         }
 
         function gradeCalculation(scriptContext) {
@@ -93,7 +87,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                 var grade = record.getCurrentSublistValue({
                     sublistId: 'recmachcustrecord_wipfli_subject_ref',
                     fieldId: 'custrecord_wipfli_subject_total'
-                })
+                });
                 console.log("grade", grade);
 
                 if (grade < 45) {
@@ -101,40 +95,29 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                         sublistId: 'recmachcustrecord_wipfli_subject_ref',
                         fieldId: 'custrecord_wipfli_subject_grade',
                         value: 'fail',
-                    })
-
-                }
-
-                else if (grade >= 45 && grade <= 59) {
+                    });
+                } else if (grade >= 45 && grade <= 59) {
                     record.setCurrentSublistValue({
                         sublistId: 'recmachcustrecord_wipfli_subject_ref',
                         fieldId: 'custrecord_wipfli_subject_grade',
                         value: 'pass',
 
-                    })
-
-                }
-                else if (grade >= 60 && grade <= 70) {
+                    });
+                } else if (grade >= 60 && grade <= 70) {
                     record.setCurrentSublistValue({
                         sublistId: 'recmachcustrecord_wipfli_subject_ref',
                         fieldId: 'custrecord_wipfli_subject_grade',
                         value: 'firstclass',
 
-                    })
-
-                }
-                else if (grade > 70) {
+                    });
+                } else if (grade > 70) {
                     record.setCurrentSublistValue({
                         sublistId: 'recmachcustrecord_wipfli_subject_ref',
                         fieldId: 'custrecord_wipfli_subject_grade',
                         value: 'distinction',
 
-                    })
-
+                    });
                 }
-
-
-
             }
         }
 
@@ -151,7 +134,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
             }
             var linecount = Record.getLineCount({
                 sublistId: 'recmachcustrecord_wipfli_subject_ref'
-            })
+            });
             console.log("linecount", linecount);
             if (linecount <= 0) {
                 alert("add atleast one line of subject");
@@ -173,11 +156,10 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                 fieldId: 'custrecord_wipfli_vtu_msg',
                 value: 'Hello ' + nameval + ',All the best for your academics'
 
-            })
+            });
         }
 
-
-         //by using search.lookupfield
+        //by using search.lookupfield
 
         // function autoPopulate(scriptContext)
         // {  var record = currentRecord.get();
@@ -239,6 +221,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                     fieldId: 'custrecord_wipfli_vtu_name'
                 });
                 console.log(nameval);
+                // eslint-disable-next-line camelcase
                 var customrecord_wipfli_studentSearchObj = search.create({
                     type: "customrecord_wipfli_student",
                     filters:
@@ -261,31 +244,31 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
                 console.log("search object",searchObject.length);
             
 
-                for (i = 0; i < searchObject.length; i++) {
-                    var searchAge = searchObject[i].getValue({ name: "custrecord_wipfli_student_ages" })
+                for (var i = 0; i < searchObject.length; i++) {
+                    var searchAge = searchObject[i].getValue({ name: "custrecord_wipfli_student_ages" });
                     record.setValue({
                         fieldId: 'custrecord_wipfli_student_age',
                         value: searchAge
-                    })
+                    });
 
-                    var searchEmail = searchObject[i].getValue({ name: "custrecord_wipfli_student_email" })
+                    var searchEmail = searchObject[i].getValue({ name: "custrecord_wipfli_student_email" });
                     record.setValue({
                         fieldId: 'custrecord_wipfli_vtu_email',
                         value: searchEmail
-                    })
+                    });
 
-                    var searchPhone = searchObject[i].getValue({ name: "custrecord_wipfli_student_phno" })
+                    var searchPhone = searchObject[i].getValue({ name: "custrecord_wipfli_student_phno" });
                     record.setValue({
                         fieldId: 'custrecord_wipfli_vtu_phno',
                         value: searchPhone
-                    })
+                    });
 
-                    var searchdob = searchObject[i].getValue({ name: "custrecord_wipfli_student_dob" })
-                    var date = new Date(searchdob)
+                    var searchdob = searchObject[i].getValue({ name: "custrecord_wipfli_student_dob" });
+                    var date = new Date(searchdob);
                     record.setValue({
                         fieldId: 'custrecord_wipfli_vtu_dob',
                         value: date
-                    })
+                    });
                 }
                 return true;
             }
@@ -299,5 +282,4 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format'],
             message: message,
 
         };
-
     });

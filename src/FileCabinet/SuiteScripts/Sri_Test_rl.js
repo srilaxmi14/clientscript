@@ -26,11 +26,9 @@ define(['N/record', 'N/search'],
                 var filters = [];
                 
                 if (!isEmpty(studentName)) {
-                    filters.push(["name", "contains", studentName])
-                }
-
-                else {
-                    filters.push(["internalid", "is", studentId])
+                    filters.push(["name", "contains", studentName]);
+                } else {
+                    filters.push(["internalid", "is", studentId]);
                 }
 
                 var studentSearch = search.create({
@@ -50,55 +48,47 @@ define(['N/record', 'N/search'],
 
                 var studentDetail = [];
                 if (searchObject.length < 1) {
-                    return studentName + " record is not found"
+                    return studentName + " record is not found";
                 }
-                for (i = 0; i < searchObject.length; i++) {
-                    var studentname = searchObject[i].getValue({ name: "name" })
-                    var studentAge = searchObject[i].getValue({ name: "custrecord_wipfli_student_ages" })
-                    var studentEmail = searchObject[i].getValue({ name: "custrecord_wipfli_student_email" })
+                for (var i = 0; i < searchObject.length; i++) {
+                    var studentname = searchObject[i].getValue({ name: "name" });
+                    var studentAge = searchObject[i].getValue({ name: "custrecord_wipfli_student_ages" });
+                    var studentEmail = searchObject[i].getValue({ name: "custrecord_wipfli_student_email" });
 
                     studentDetail.push({
                         name: studentname,
                         age: studentAge,
                         email: studentEmail
                     });
-
-
                 }
                 return studentDetail;
-
-            }
-
-            catch (e) {
+            } catch (e) {
                 log.error({
                     title: "Error in get function",
                     details: e.message
-                })
+                });
                 return e.message;
-
             }
 
             // function isEmpty(value) { return value === '' || value === null || value === undefined; }
-        }
+        };
 
         const post = (requestbody) => {
-
-            for (i = 0; i < requestbody.length; i++) {
+            for (var i = 0; i < requestbody.length; i++) {
                 var studata = requestbody[i].student;
                 var biodata = requestbody[i].biodata;
 
                 var result = studentRecord(studata);
                 if (result == true) {
-                    var bioresult = bioData(biodata);
-                    return bioresult;
-                }
-                else {
+                    if(biodata) {
+                        var bioresult = bioData(biodata);
+                        return bioresult;
+                    }
+                } else {
                     return result;
                 }
             }
-
-
-        }
+        };
 
         const put = (requestBody) => {
             try {
@@ -112,22 +102,22 @@ define(['N/record', 'N/search'],
                 var biorecord = record.load({
                     type: 'customrecord_wipfli_vtu_student',
                     id: id
-                })
+                });
 
                 if (age) {
                     biorecord.setValue({
                         fieldId: 'custrecord_wipfli_student_age',
                         value: age
-                        // value:678954321
-                    })
+              
+                    });
                 }
 
                 if (email) {
                     biorecord.setValue({
                         fieldId: 'custrecord_wipfli_vtu_email',
                         value: email
-                        // value:678954321
-                    })
+                
+                    });
                 }
 
 
@@ -135,24 +125,24 @@ define(['N/record', 'N/search'],
                     biorecord.setValue({
                         fieldId: 'custrecord_wipfli_vtu_phno',
                         value: phone
-                        // value:678954321
-                    })
+            
+                    });
                 }
 
                 if (msg) {
                     biorecord.setValue({
                         fieldId: 'custrecord_wipfli_vtu_phno',
-                        value: phone
-                        // value:678954321
-                    })
+                        value: msg
+           
+                    });
                 }
 
                 if (edu) {
                     biorecord.setValue({
                         fieldId: 'custrecord_wipfli_vtu_phno',
-                        value: phone
-                        // value:678954321
-                    })
+                        value: edu
+                
+                    });
                 }
 
                 var subject = requestBody.subject;
@@ -160,171 +150,151 @@ define(['N/record', 'N/search'],
 
                 var linecount = biorecord.getLineCount({
                     sublistId: 'recmachcustrecord_wipfli_subject_ref'
-                })
+                });
 
                 log.debug("linecount", linecount);
 
-                for (i = 0; i < subject.length; i++) {
-                    for (j = 0; j < linecount; j++) {
-                        subNames = biorecord.getSublistValue({
+                for (var i = 0; i < subject.length; i++) {
+                    for (var j = 0; j < linecount; j++) {
+                        var subNames = biorecord.getSublistValue({
                             sublistId: 'recmachcustrecord_wipfli_subject_ref',
                             fieldId: 'name',
                             line: j
-                        })
+                        });
                         if (subject[i].name == subNames) {
                             var name = subject[j].name;
                             var internalMarks = subject[j].internalMarks;
                             var externalMarks = subject[j].externalMarks;
-                            var total = subject[j].total;
-
+                     
                             log.debug("name",name);
                             log.debug("ie",internalMarks);
 
-                            if(name)
-                            {
-                            biorecord.setSublistValue({
-                                sublistId: 'recmachcustrecord_wipfli_subject_ref',
-                                fieldId: 'name',
-                                line: j,
-                                value: name
-                            });
-                        }
-                        if(internalMarks)
-                        {
+                            if(name) {
+                                biorecord.setSublistValue({
+                                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                                    fieldId: 'name',
+                                    line: j,
+                                    value: name
+                                });
+                            }
+                            if(internalMarks) {
+                             var internal= biorecord.setSublistValue({
+                                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                                    fieldId: 'custrecord_wipfli_subject_ie',
+                                    line: j,
+                                    value: internalMarks
+                                });
+                            }
 
-                            biorecord.setSublistValue({
-                                sublistId: 'recmachcustrecord_wipfli_subject_ref',
-                                fieldId: 'custrecord_wipfli_subject_ie',
-                                line: j,
-                                value: internalMarks
-                            });
-                        }
+                            if(externalMarks) {
+                            var external =  biorecord.setSublistValue({
+                                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                                    fieldId: 'custrecord_wipfli_subject_external',
+                                    line: j,
+                                    value: externalMarks
+                                });
+                            }
+                            // var total=internal+external;
 
-                        if(externalMarks)
-                        {
-                            biorecord.setSublistValue({
-                                sublistId: 'recmachcustrecord_wipfli_subject_ref',
-                                fieldId: 'custrecord_wipfli_subject_external',
-                                line: j,
-                                value: externalMarks
-                            });
-                        }
-                        if(total)
-                        {
-
-                            biorecord.setSublistValue({
-                                sublistId: 'recmachcustrecord_wipfli_subject_ref',
-                                fieldId: 'custrecord_wipfli_subject_total',
-                                line: j,
-                                value: total
-                            });
-                        }
+                            // if(total) {
+                                biorecord.setSublistValue({
+                                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                                    fieldId: 'custrecord_wipfli_subject_total',
+                                    line: j,
+                                    value:internalMarks+externalMarks
+                                });
+                            // }
                         }
                     }
                 }
 
                 biorecord.save();
-                return "record updated successfully"
-
-
-
-            }
-            catch (e) {
+                return "record updated successfully";
+            } catch (e) {
                 log.error({
                     title: "error in put function",
                     details: e.message
-                })
+                });
                 return e.message;
             }
-
-        }
+        };
 
         const doDelete = (requestParams) => {
             try {
                 var studentId = requestParams.id;
                 var Type=requestParams.Type;
                 
-                if(Type=='student')
-                {
-                var customrecord_wipfli_vtu_studentSearchObj = search.create({
-                    type: "customrecord_wipfli_vtu_student",
-                    filters:
+                if(Type=='student') {
+                    var deleteStudentSearch = search.create({
+                        type: "customrecord_wipfli_vtu_student",
+                        filters:
                         [
                             ["custrecord_wipfli_vtu_name", "anyof", studentId]
                         ],
-                    columns:
+                        columns:
                         [
                             search.createColumn({ name: "internalid", label: "Internal ID" })
                         ]
-                });
-                var searchResult = customrecord_wipfli_vtu_studentSearchObj.run();
-                var searchObject = searchResult.getRange(0, 1000);
+                    });
+                    var searchResult = deleteStudentSearch.run();
+                    var searchObject = searchResult.getRange(0, 1000);
 
-                if (searchObject.length < 1) {
-                    return studentId + " record is not found"
-                }
+                    if (searchObject.length < 1) {
+                        return studentId + " record is not found";
+                    } else if (searchObject.length > 0) {
+                        for (var i = 0; i < searchObject.length; i++) {
+                            var bioDataid = searchObject[i].getValue({ name: "internalid" });
 
-                else if (searchObject.length > 0) {
+                            var bioDataRec = record.load({
+                                type: 'customrecord_wipfli_vtu_student',
+                                id: bioDataid,
+                            });
 
-                    for (i = 0; i < searchObject.length; i++) {
-                        var bioDataid = searchObject[i].getValue({ name: "internalid" });
+                            var sublistCount = bioDataRec.getLineCount({
+                                sublistId: 'recmachcustrecord_wipfli_subject_ref'
+                            });
 
-                        var bioDataRec = record.load({
-                            type: 'customrecord_wipfli_vtu_student',
-                            id: bioDataid,
-                        })
+                            if (sublistCount > 0) {
+                                for (i = 0; i < sublistCount; i++) {
+                                    var subId = bioDataRec.getSublistValue({
+                                        sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                                        fieldId: 'id',
+                                        line: i
+                                    });
 
-                        var sublistCount = bioDataRec.getLineCount({
-                            sublistId: 'recmachcustrecord_wipfli_subject_ref'
-                        })
+                                    var subDelete = record.delete({
+                                        type: 'customrecord_wipfli_subjects',
+                                        id: subId
+                                    });
 
-                        if (sublistCount > 0) {
-                            for (i = 0; i < sublistCount; i++) {
-                                var subId = bioDataRec.getSublistValue({
-                                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
-                                    fieldId: 'id',
-                                    line: i
-                                })
-
-                                var subDelete = record.delete({
-                                    type: 'customrecord_wipfli_subjects',
-                                    id: subId
-                                })
-
-                                log.debug("SUBJECTDELETE", subDelete);
+                                    log.debug("SUBJECTDELETE", subDelete);
+                                }
                             }
+
+
+                            var bioDelete = record.delete({
+                                type: 'customrecord_wipfli_vtu_student',
+                                id: bioDataid
+                            });
+
+                            log.debug("DELETEBIODATA", bioDelete);
                         }
-
-
-                        var bioDelete = record.delete({
-                            type: 'customrecord_wipfli_vtu_student',
-                            id: bioDataid
-                        });
-
-                        log.debug("DELETEBIODATA", bioDelete);
-
-
                     }
-                }
 
-                var studentDelete = record.delete({
-                    type: 'customrecord_wipfli_student',
-                    id: studentId
-                })
+                    var studentDelete = record.delete({
+                        type: 'customrecord_wipfli_student',
+                        id: studentId
+                    });
 
-                log.debug("DELETESTUDENT", studentDelete);
+                    log.debug("DELETESTUDENT", studentDelete);
 
 
-                // log.debug("customrecord_wipfli_vtu_studentSearchObj result count", searchResultCount);
+                    // log.debug("customrecord_wipfli_vtu_studentSearchObj result count", searchResultCount);
 
-                return "student record is deleted successfully"
-
-            }
-
-            else if(Type== 'biodata')
-            {
-                var id=requestParams.id
-                    var subSearch=search.create({
+                    return "student record is deleted successfully";
+                } else if(Type== 'biodata') {
+                    var id=requestParams.id;
+                    var bioDataSearch=search.create({
                         type:'customrecord_wipfli_vtu_student',
                         filters:
                         [
@@ -337,56 +307,55 @@ define(['N/record', 'N/search'],
 
 
                     });
-                    var searchResultCount=subSearch.runPaged().count;
+                    var searchResultCount=bioDataSearch.runPaged().count;
 
-                    if(searchResultCount>0)
-                    {
+                    if(searchResultCount>0) {
+                        // eslint-disable-next-line no-redeclare
+                        var bioDataRec = record.load({
+                            type: 'customrecord_wipfli_vtu_student',
+                            id:id,
+                        });
 
-                    var bioDataRec = record.load({
-                        type: 'customrecord_wipfli_vtu_student',
-                        id:id,
-                    })
+                        // eslint-disable-next-line no-redeclare
+                        var sublistCount = bioDataRec.getLineCount({
+                            sublistId: 'recmachcustrecord_wipfli_subject_ref'
+                        });
 
-                    var sublistCount = bioDataRec.getLineCount({
-                        sublistId: 'recmachcustrecord_wipfli_subject_ref'
-                    })
+                        if (sublistCount > 0) {
+                            for (i = 0; i < sublistCount; i++) {
+                                // eslint-disable-next-line no-redeclare
+                                var subId = bioDataRec.getSublistValue({
+                                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                                    fieldId: 'id',
+                                    line: i
+                                });
 
-                    if (sublistCount > 0) {
-                        for (i = 0; i < sublistCount; i++) {
-                            var subId = bioDataRec.getSublistValue({
-                                sublistId: 'recmachcustrecord_wipfli_subject_ref',
-                                fieldId: 'id',
-                                line: i
-                            })
+                                // eslint-disable-next-line no-redeclare
+                                var subDelete = record.delete({
+                                    type: 'customrecord_wipfli_subjects',
+                                    id: subId
+                                });
 
-                            var subDelete = record.delete({
-                                type: 'customrecord_wipfli_subjects',
-                                id: subId
-                            })
-
-                            log.debug("SUBJECTDELETE", subDelete);
+                                log.debug("SUBJECTDELETE", subDelete);
+                            }
                         }
-                    }
 
 
-                    var bioDelete = record.delete({
-                        type: 'customrecord_wipfli_vtu_student',
-                        id: id
-                    });
+                        // eslint-disable-next-line no-redeclare
+                        var bioDelete = record.delete({
+                            type: 'customrecord_wipfli_vtu_student',
+                            id: id
+                        });
 
-                    return "biodata record is deleted successfully"
+                        return "biodata record is deleted successfully";
 
                     // log.debug("DELETEBIODATA", bioDelete);
-                }
-                else{
-                    return "biodata record is not found with this id"
-                }
-            }
-
-                else if(Type=="subject")
-                {
-
-                    var id=requestParams.id
+                    } else{
+                        return "biodata record is not found with this id";
+                    }
+                } else if(Type=="subject") {
+                    // eslint-disable-next-line no-redeclare
+                    var id=requestParams.id;
                     var subSearch=search.create({
                         type:'customrecord_wipfli_subjects',
                         filters:
@@ -400,52 +369,45 @@ define(['N/record', 'N/search'],
 
 
                     });
+                    // eslint-disable-next-line no-redeclare
                     var searchResultCount=subSearch.runPaged().count;
 
-                    if(searchResultCount>0)
-                    {
+                    if(searchResultCount>0) {
+                        // eslint-disable-next-line no-unused-vars
+                        var subjectRec = record.load({
+                            type: 'customrecord_wipfli_subjects',
+                            id:id,
+                        });
 
-                    var subjectRec = record.load({
-                        type: 'customrecord_wipfli_subjects',
-                        id:id,
-                    })
+                        // eslint-disable-next-line no-redeclare
+                        var subDelete = record.delete({
+                            type: 'customrecord_wipfli_subjects',
+                            id: id
+                        });
 
-                    var subDelete = record.delete({
-                        type: 'customrecord_wipfli_subjects',
-                        id: id
-                    })
-
-                    return "subject record deleted succefully"
+                        return "subject record deleted succefully";
+                    } else{
+                        return "the subject record is not found with this id";
                     }
-                    else{
-                        return "the subject record is not found with this id"
-                    }
-
-                    
-
                 }
-            
-    }
-            catch (e) {
+            } catch (e) {
                 log.error({
                     title: "error in put function",
                     details: e.message
-                })
+                });
                 return e.message;
-
             }
-
-        }
+        };
 
         function studentRecord(requestbody) {
             try {
                 var studentdata = requestbody;
 
-                for (i = 0; i < studentdata.length; i++) {
-
+                for (var i = 0; i < studentdata.length; i++) {
                     var fname = studentdata[i].fname;
                     var lname = studentdata[i].lname;
-                    var age = studentdata[i].age;
+                    var dateOfBirth = studentdata[i].dateOfBirth;
+                    var studentDateOfBirth=new Date(dateOfBirth);
                     var email = studentdata[i].email;
                     var phone = studentdata[i].phone;
                     
@@ -453,13 +415,13 @@ define(['N/record', 'N/search'],
                     var studentDetail=studentdata[i];
                     for (var key in studentDetail) {
                         if (isEmpty(studentDetail[key])) {
-                          return "please enter the "+ key ;
+                            return "please enter the "+ key ;
                         }
-                      }
+                    }
                     
-                    fullname = fname + " " + lname
+                    var fullname = fname + " " + lname;
 
-                    var customrecord_wipfli_studentSearchObj = search.create({
+                    var studentSearch = search.create({
                         type: "customrecord_wipfli_student",
                         filters:
                             [
@@ -469,63 +431,70 @@ define(['N/record', 'N/search'],
                             search.createColumn({ name: "name", label: "name" }),
                         ]
                     });
-                    var searchResultCount = customrecord_wipfli_studentSearchObj.runPaged().count;
+                    var searchResultCount = studentSearch.runPaged().count;
                     log.debug("name counts", searchResultCount);
                     if (searchResultCount > 0) {
                         return fullname + " already exists";
-
                     }
 
                     var studentrecord = record.create({
                         type: 'customrecord_wipfli_student',
                         isDynamic: true
-                    })
+                    });
 
                     studentrecord.setValue({
                         fieldId: 'name',
                         value: fname + " " + lname
-                    })
+                    });
 
                     studentrecord.setValue({
                         fieldId: 'custrecord_wipfli_student_fn',
                         value: fname
-                    })
+                    });
 
                     studentrecord.setValue({
                         fieldId: 'custrecord_wipfli_student_ln',
                         value: lname,
                         ignoreFieldChange: false
-                    })
+                    });
+
+                    var today=new Date();
+                    var studentAge=today.getFullYear()-studentDateOfBirth.getFullYear();
 
                     studentrecord.setValue({
                         fieldId: 'custrecord_wipfli_student_ages',
-                        value: age
-                    })
+                        value: studentAge
+                    });
+
+                    
+                    studentrecord.setValue({
+                        fieldId: 'custrecord_wipfli_student_dob',
+                        value: studentDateOfBirth
+                    });
 
                     studentrecord.setValue({
                         fieldId: 'custrecord_wipfli_student_email',
                         value: email
-                    })
+                    });
 
                     studentrecord.setValue({
                         fieldId: 'custrecord_wipfli_student_phno',
                         value: phone
-                    })
+                    });
 
                     
                     studentid = studentrecord.save({
 
-                    })
+                    });
 
+                    log.debug("studentid",studentid);
                 }
                 if (studentid) {
                     return true;
                 }
-            }
-            catch (e) {
+            } catch (e) {
                 log.error("error in post", e.message);
                 return e.message;
-
             }
         }
 
@@ -534,11 +503,8 @@ define(['N/record', 'N/search'],
             try {
                 var bioDatadetail = requestbody;
                 // return bioDatadetail.length;
-                for (j = 0; j < bioDatadetail.length; j++) {
+                for (var j = 0; j < bioDatadetail.length; j++) {
                     var name = bioDatadetail[j].name;
-                    var age = bioDatadetail[j].age;
-                    var email = bioDatadetail[j].email;
-                    var phone = bioDatadetail[j].phone;
                     var edu = bioDatadetail[j].edu;
                     var msg = bioDatadetail[j].msg;
                     var subject = bioDatadetail[j].subject;
@@ -546,55 +512,91 @@ define(['N/record', 'N/search'],
                     var biorecord = record.create({
                         type: 'customrecord_wipfli_vtu_student',
                         isDynamic: false
-                    })
-                    log.debug("studentid", studentid);
+                    });
+
+                    log.debug("studentid...", studentid);
+
+
                     biorecord.setValue({
                         fieldId: 'custrecord_wipfli_vtu_name',
                         value: studentid
-                    })
+                    });
 
-
-                    biorecord.setValue({
-                        fieldId: 'custrecord_wipfli_student_age',
-                        value: age
-                    })
-
-
-                    biorecord.setValue({
-                        fieldId: 'custrecord_wipfli_vtu_email',
-                        value: email
-                    })
-
-                    biorecord.setValue({
-                        fieldId: 'custrecord_wipfli_vtu_phno',
-                        value: phone
-                    })
-                    log.debug("edu", edu);
+                    var studentSearch = search.create({
+                        type: "customrecord_wipfli_student",
+                        filters:
+                            [
+                                ["internalid", "is", studentid]
+                            ],
+                        columns:
+                            [
+                                search.createColumn({ name: "custrecord_wipfli_student_ages", label: "age" }),
+                                search.createColumn({ name: "custrecord_wipfli_student_email", label: "email" }),
+                                search.createColumn({ name: "custrecord_wipfli_student_phno", label: "phone number" }),
+                                search.createColumn({name:"custrecord_wipfli_student_dob",label:"date of birth"})
+                            ]
+                    });
+    
+                    var searchResult =studentSearch.run();
+                  
+    
+                    var searchObject = searchResult.getRange(0, 1000);
+                
+    
+                    for (var i = 0; i < searchObject.length; i++) {
+                        var searchAge = searchObject[i].getValue({ name: "custrecord_wipfli_student_ages" });
+                        biorecord.setValue({
+                            fieldId: 'custrecord_wipfli_student_age',
+                            value: searchAge
+                        });
+                    
+                        var searchEmail = searchObject[i].getValue({ name: "custrecord_wipfli_student_email" });
+                        log.debug("email",searchEmail);
+                        biorecord.setValue({
+                            fieldId: 'custrecord_wipfli_vtu_email',
+                            value: searchEmail
+                        });
+    
+                        var searchPhone = searchObject[i].getValue({ name: "custrecord_wipfli_student_phno" });
+                        biorecord.setValue({
+                            fieldId: 'custrecord_wipfli_vtu_phno',
+                            value: searchPhone
+                        });
+    
+                        var searchdob = searchObject[i].getValue({ name: "custrecord_wipfli_student_dob" });
+                        var date = new Date(searchdob);
+                        biorecord.setValue({
+                            fieldId: 'custrecord_wipfli_vtu_dob',
+                            value: date
+                        });
+                    }
+                    
 
                     biorecord.setText({
                         fieldId: 'custrecord_wipfli_vtu_edu',
                         text: edu,
                         ignoreFieldChange: true
-                    })
+                    });
 
                     biorecord.setValue({
                         fieldId: 'custrecord_wipfli_vtu_msg',
                         value: msg
-                    })
+                    });
 
 
-                    for (k = 0; k < subject.length; k++) {
+                    for (var k = 0; k < subject.length; k++) {
+                        // eslint-disable-next-line no-redeclare
                         var name = subject[k].name;
                         var internalMarks = subject[k].internalMarks;
                         var externalMarks = subject[k].externalMarks;
-                        // var total = subject[k].total;
-
+            
                         biorecord.setSublistValue({
                             sublistId: 'recmachcustrecord_wipfli_subject_ref',
                             fieldId: 'name',
                             line: k,
                             value: name
                         });
+
 
                         biorecord.setSublistValue({
                             sublistId: 'recmachcustrecord_wipfli_subject_ref',
@@ -603,7 +605,7 @@ define(['N/record', 'N/search'],
                             value: internalMarks
                         });
 
-                       biorecord.setSublistValue({
+                        biorecord.setSublistValue({
                             sublistId: 'recmachcustrecord_wipfli_subject_ref',
                             fieldId: 'custrecord_wipfli_subject_external',
                             line: k,
@@ -616,25 +618,17 @@ define(['N/record', 'N/search'],
                             line: k,
                             value: internalMarks+externalMarks
                         });
-
                     }
 
 
                     var recordId = biorecord.save({
 
                     });
-
-
-
                 }
                 if (recordId) {
-                    return "biodata record is successfully created"
+                    return "biodata record is successfully created";
                 }
-
-
-
-            }
-            catch (e) {
+            } catch (e) {
                 log.error("error in post", e.message);
                 return e.message;
             }
@@ -642,10 +636,8 @@ define(['N/record', 'N/search'],
 
         function isEmpty(value) {
             return value === undefined || value === null || value === "";
-          }
+        }
 
 
-
-        return { get, post, put, delete: doDelete }
-
+        return { get, post, put, delete: doDelete };
     });
