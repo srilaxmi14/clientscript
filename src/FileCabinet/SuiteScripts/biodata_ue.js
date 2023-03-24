@@ -22,18 +22,15 @@ define(['N/record', 'N/search'],
 
             var mode=scriptContext.type;
 
-            if(mode=='edit')
-            {
-                
+            if(mode=='edit') {
                 scriptContext.form.addButton({
                     id: 'custpage_button',
                     label: 'message',
                     functionName:'message()'
-                })
+                });
                 scriptContext.form.clientScriptModulePath = './biodata_cs.js';
             }
-
-        }
+        };
 
         const beforeSubmit = (scriptContext) => {
             var record=scriptContext.newRecord;
@@ -43,7 +40,7 @@ define(['N/record', 'N/search'],
 
             var subjecttwo=record.getValue({
                 fieldId: 'custrecord1439'
-            })
+            });
 
             var total=subjectone+subjecttwo;
 
@@ -51,8 +48,43 @@ define(['N/record', 'N/search'],
                 fieldId: 'custrecord1440',
                 value:total
             
-            })
+            });
+            gradeCalculation(scriptContext);
+        };
+
+        function gradeCalculation(scriptContext) {
+            var record = scriptContext.newRecord;
+
+            var lineCount=record.getLineCount({
+                sublistId: 'recmachcustrecord_wipfli_subject_ref'
+            });
+
+            for(let i=0;i<lineCount.length;i++) {
+                let total=record.getSublistValue({
+                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                    fieldId: 'custrecord_wipfli_subject_total',
+                    line:i
+                });
+                let grade;
+
+                if (total < 45) {
+                    grade="fail";
+                } else if (total >= 45 && total <= 59) {
+                    grade="pass";
+                } else if (total >= 60 && total <= 70) {
+                    grade="firstclass";
+                } else if (total > 70) {
+                    grade="distinction";
+                }
+                record.setSublistValue({
+                    sublistId: 'recmachcustrecord_wipfli_subject_ref',
+                    fieldId: 'custrecord_wipfli_subject_grade',
+                    value: grade,
+    
+                });
             }
+        }
+            
 
         // const afterSubmit = (scriptContext) => {
         //     var currecord=scriptContext.newRecord;
@@ -62,7 +94,7 @@ define(['N/record', 'N/search'],
         //     })
 
         //     record.submitFields({
-        //         type: 'customrecord_wipfli_student',
+        //         type: 'customrecord_wipfli_college',
         //         id: name,
         //         values: {
         //             'custrecord_wipfli_student_vtu': recid
@@ -75,6 +107,5 @@ define(['N/record', 'N/search'],
             beforeLoad,
             beforeSubmit,
             // afterSubmit
-        }
-
+        };
     });
