@@ -3,12 +3,12 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/record', 'N/search','N/currentRecord'],
+define(['N/record', 'N/search','N/currentRecord', 'N/url'],
 /**
  * @param{record} record
  * @param{search} search
  */
-    function(record, search, currentRecord) {
+    function(record, search, currentRecord,url) {
         var pageMode;
         /**
      * Function to be executed after page is initialized.
@@ -45,12 +45,12 @@ define(['N/record', 'N/search','N/currentRecord'],
             //     sublistId: 'custrecord1442',
             // });
             // for(var i=0;i<linecount;i++) {
-                // var external=record.getSublistField({
-                //     sublistId: 'recmachcustrecord1442',
-                //     fieldId: 'custrecord_wipfli_subject_external',
-                //     line: 3
-                // });
-                // external.isDisabled=true;
+            // var external=record.getSublistField({
+            //     sublistId: 'recmachcustrecord1442',
+            //     fieldId: 'custrecord_wipfli_subject_external',
+            //     line: 3
+            // });
+            // external.isDisabled=true;
             // }
         }
 
@@ -219,11 +219,42 @@ define(['N/record', 'N/search','N/currentRecord'],
             return true;
         }
 
+        function enterMarks(currentRecId) {
+            try{
+                log.debug("current rec id",currentRecId);
+                console.log("current record id",currentRecId);
+
+                var getUrl=url.resolveScript({
+                    deploymentId:'customdeploy_wipfli_college_suitlet',
+                    scriptId: 'customscript_wipfli_college_suitlet',
+                    params: {
+                        'id':currentRecId
+                    },
+                    returnExternalUrl: false
+
+                });
+                log.debug("url",getUrl);
+                console.log("url",getUrl);
+
+                // window.open('/app/site/hosting/scriptlet.nl?script=3738&deploy=1'); 
+                // window.location.href = '/app/site/hosting/scriptlet.nl?script=3738&deploy=1&id='+currentRecId;
+                // window.location.href=getUrl;
+                window.location.href = '/app/site/hosting/scriptlet.nl?script=3738&deploy=1';
+            } catch (e) {
+                log.error({
+                    title: "error in generateto function",
+                    details: e.message
+                });
+                return e.message;
+            }
+        }
+
         return {
             pageInit: pageInit,
             fieldChanged: fieldChanged,
             // sublistChanged: sublistChanged,
             validateField: validateField,
-            saveRecord: saveRecord
+            saveRecord: saveRecord,
+            enterMarks:enterMarks
         };
     });
