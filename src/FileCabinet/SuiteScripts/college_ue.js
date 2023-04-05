@@ -54,7 +54,7 @@ define(['N/record', 'N/search','N/ui/serverWidget'],
                         displayType: 'DISABLED'
                     });
                 }
-                if(scriptContext.type=='view'||scriptContext.type=='edit') {
+                if(scriptContext.type=='view') {
                     var currentRecId = scriptContext.newRecord.id;
                     scriptContext.form.addButton({
                         id: 'custpage_button',

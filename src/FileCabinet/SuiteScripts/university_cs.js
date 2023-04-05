@@ -254,14 +254,14 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
                 alert("please enter the phone number");
                 return false;
             }
-            var linecount = Record.getLineCount({
-                sublistId: 'recmachcustrecord1443'
-            });
-            console.log("linecount", linecount);
-            if (linecount <= 0) {
-                alert("add atleast one line of subject");
-                return false;
-            }
+            // var linecount = Record.getLineCount({
+            //     sublistId: 'recmachcustrecord1443'
+            // });
+            // console.log("linecount", linecount);
+            // if (linecount <= 0) {
+            //     alert("add atleast one line of subject");
+            //     return false;
+            // }
             return true;
         }
 
