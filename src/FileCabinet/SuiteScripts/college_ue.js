@@ -58,7 +58,7 @@ define(['N/record', 'N/search','N/ui/serverWidget'],
                     var currentRecId = scriptContext.newRecord.id;
                     scriptContext.form.addButton({
                         id: 'custpage_button',
-                        label: 'Enter Marks',
+                        label: 'Enter Internal Marks',
                         functionName:'enterMarks('+currentRecId+')'
                     });
                     scriptContext.form.clientScriptModulePath = './College_cs.js';

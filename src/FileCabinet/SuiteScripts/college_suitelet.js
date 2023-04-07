@@ -2,13 +2,13 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  */
-define(['N/record', 'N/search', 'N/ui/serverWidget'],
+define(['N/record', 'N/search', 'N/ui/serverWidget','N/redirect'],
     /**
  * @param{record} record
  * @param{search} search
  * @param{serverWidget} serverWidget
  */
-    (record, search, serverWidget) => {
+    (record, search, serverWidget,redirect) => {
         /**
          * Defines the Suitelet script trigger point.
          * @param {Object} scriptContext
@@ -105,11 +105,6 @@ define(['N/record', 'N/search', 'N/ui/serverWidget'],
                     });
                 }
                 log.debug("setSubject",setSubject);
-                var fieldGroup = form.addFieldGroup({
-                    id: 'subjects',
-                    label: 'Subjects'
-                });
-                log.debug("fieldgroup",fieldGroup);
                 form.addSubmitButton({
                     label: 'Save'
                 });
@@ -138,14 +133,18 @@ define(['N/record', 'N/search', 'N/ui/serverWidget'],
                         name: 'subjectname'
                     });
                     log.debug("subject names in post",subName);
-                    var marks=scriptContext.request.getSublistValue({
+                    var internalmarks=scriptContext.request.getSublistValue({
                         group: 'subjects',
                         line: k,
                         name: 'internalmarks'
                     });
-                    log.debug("subject marks in post",marks);
+                    if (internalmarks === ''  || internalmarks === undefined || internalmarks === null) {
+                        scriptContext.response.write('Please enter internal marks for all subjects.');
+                        return;
+                    }
+                    log.debug("subject marks in post",internalmarks);
                     var setName=collegeDetails.setSublistValue({
-                        sublistId:'recmachcustrecord1442',
+                        sublistId:'recmachcustrecord1445',
                         fieldId: 'name',
                         line:k,
                         value:subName
@@ -153,14 +152,18 @@ define(['N/record', 'N/search', 'N/ui/serverWidget'],
                     log.debug("setName",setName);
 
                     var setMarks=collegeDetails.setSublistValue({
-                        sublistId:'recmachcustrecord1442',
+                        sublistId:'recmachcustrecord1445',
                         fieldId: 'custrecord_wipfli_subject_ie',
                         line:k,
-                        value:marks
+                        value:internalmarks
                     });
                     log.debug("setMarks",setMarks);
                 }
                 var recordId = collegeDetails.save({
+                });
+                redirect.toRecord({
+                    type: 'customrecord_wipfli_college', 
+                    id: recordId,
                 });
             }
         };

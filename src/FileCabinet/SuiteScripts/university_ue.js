@@ -54,6 +54,16 @@ define(['N/record', 'N/search', 'N/ui/serverWidget'],
                 });
                 scriptContext.form.clientScriptModulePath = './university_cs.js';
             }
+
+            if(scriptContext.type=='view') {
+                var currentId = scriptContext.newRecord.id;
+                scriptContext.form.addButton({
+                    id: 'custpage_external_button',
+                    label: 'Enter External Marks',
+                    functionName:'enterExternalMarks('+currentId+')'
+                });
+                scriptContext.form.clientScriptModulePath = './university_cs.js';
+            }
         };
 
         /**
