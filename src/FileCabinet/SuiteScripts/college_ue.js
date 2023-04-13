@@ -18,41 +18,57 @@ define(['N/record', 'N/search','N/ui/serverWidget'],
          * @since 2015.2
          */
         const beforeLoad = (scriptContext) => {
-            log.debug("testing");
+            log.debug("testing","");
+            try{
+                // var record=scriptContext.newRecord;
+                if(scriptContext.type==scriptContext.UserEventType.CREATE){
+                    var form=scriptContext.form;
+                    var sublist=form.getSublist({
+                        id: 'recmachcustrecord1442'
+                    });
+                    log.debug("sublist..",sublist);
+                    var subExternal=sublist.getField({
+                        id: 'custrecord_wipfli_subject_external'
+                    });
+                    log.debug("sublist",subExternal);
 
-            // var record=scriptContext.newRecord;
-            if(scriptContext.type==scriptContext.UserEventType.CREATE){
-                var form=scriptContext.form;
-                var sublist=form.getSublist({
-                    id: 'recmachcustrecord1442'
-                });
-                log.debug("sublist..",sublist);
-                var subExternal=sublist.getField({
-                    id: 'custrecord_wipfli_subject_external'
-                });
-                log.debug("sublist",subExternal);
+                    subExternal.updateDisplayType({
+                        displayType: 'DISABLED'
+                    });
 
-                subExternal.updateDisplayType({
-                    displayType: 'DISABLED'
-                });
+                    var subtotal=sublist.getField({
+                        id: 'custrecord_wipfli_subject_total'
+                    });
+                    log.debug("sublist",subtotal);
 
-                var subtotal=sublist.getField({
-                    id: 'custrecord_wipfli_subject_total'
-                });
-                log.debug("sublist",subtotal);
+                    subtotal.updateDisplayType({
+                        displayType: 'DISABLED'
+                    });
 
-                subtotal.updateDisplayType({
-                    displayType: 'DISABLED'
-                });
+                    var subgrade=sublist.getField({
+                        id: 'custrecord_wipfli_subject_grade'
+                    });
+                    log.debug("sublist",subgrade);
 
-                var subgrade=sublist.getField({
-                    id: 'custrecord_wipfli_subject_grade'
+                    subgrade.updateDisplayType({
+                        displayType: 'DISABLED'
+                    });
+                }
+                if(scriptContext.type=='view') {
+                    var currentRecId = scriptContext.newRecord.id;
+                    scriptContext.form.addButton({
+                        id: 'custpage_button',
+                        label: 'Enter Internal Marks',
+                        functionName:'enterMarks('+currentRecId+')'
+                    });
+                    scriptContext.form.clientScriptModulePath = './College_cs.js';
+                }
+            }catch (e) {
+                log.error({
+                    title: "error in generateto function",
+                    details: e.message
                 });
-                log.debug("sublist",subgrade);
-
-                subgrade.updateDisplayType({
-                    displayType: 'DISABLED'
-                });
+                return e.message;
             }
         
 

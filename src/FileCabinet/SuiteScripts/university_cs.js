@@ -81,94 +81,94 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
                 });
             }
 
-            if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
-                var nameval = Record.getValue({
-                    fieldId: 'custrecord_wipfli_vtu_name'
-                });
-                console.log(nameval);
-                // eslint-disable-next-line camelcase
-                var customrecord_wipfli_collegeSearchObj = search.create({
-                    type: "customrecord_wipfli_college",
-                    filters:
-                            [
-                                ["internalid", "is", nameval]
-                            ],
-                    columns:
-                            [
-                                search.createColumn({name: "internalid", label: "Internal ID"})
-                            ]
-                });
+            // if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
+            //     var nameval = Record.getValue({
+            //         fieldId: 'custrecord_wipfli_vtu_name'
+            //     });
+            //     console.log(nameval);
+            //     // eslint-disable-next-line camelcase
+            //     var customrecord_wipfli_collegeSearchObj = search.create({
+            //         type: "customrecord_wipfli_college",
+            //         filters:
+            //                 [
+            //                     ["internalid", "is", nameval]
+            //                 ],
+            //         columns:
+            //                 [
+            //                     search.createColumn({name: "internalid", label: "Internal ID"})
+            //                 ]
+            //     });
 
-                var searchResult = customrecord_wipfli_collegeSearchObj.run();
-                console.log("searchresult", searchResult);
+            //     var searchResult = customrecord_wipfli_collegeSearchObj.run();
+            //     console.log("searchresult", searchResult);
 
-                var searchObject = searchResult.getRange(0, 1000);
-                console.log("search object", searchObject.length);
+            //     var searchObject = searchResult.getRange(0, 1000);
+            //     console.log("search object", searchObject.length);
 
-                console.log("clgg....");
-                if(searchObject.length>0) {
-                    for (var i = 0; i < searchObject.length; i++) {
-                        var bioDataid = searchObject[i].getValue({ name: "internalid" });
-                        var collegeRecord = record.load({
-                            type: 'customrecord_wipfli_college',
-                            id: bioDataid
-                        });
+            //     console.log("clgg....");
+            //     if(searchObject.length>0) {
+            //         for (var i = 0; i < searchObject.length; i++) {
+            //             var bioDataid = searchObject[i].getValue({ name: "internalid" });
+            //             var collegeRecord = record.load({
+            //                 type: 'customrecord_wipfli_college',
+            //                 id: bioDataid
+            //             });
 
-                        console.log("clgrec..", collegeRecord);
+            //             console.log("clgrec..", collegeRecord);
 
-                        var sublistCount = collegeRecord.getLineCount({
-                            sublistId: 'recmachcustrecord1442',
-                        });
-                        console.log("linecount..",sublistCount);
+            //             var sublistCount = collegeRecord.getLineCount({
+            //                 sublistId: 'recmachcustrecord1442',
+            //             });
+            //             console.log("linecount..",sublistCount);
             
 
-                        if (sublistCount > 0) {
-                            for (var j = 0; j < sublistCount; j++) {
-                                // eslint-disable-next-line no-redeclare
-                                var subInternal = collegeRecord.getSublistValue({
-                                    sublistId: 'recmachcustrecord1442',
-                                    fieldId: 'custrecord_wipfli_subject_ie',
-                                    line: j
-                                });
+            //             if (sublistCount > 0) {
+            //                 for (var j = 0; j < sublistCount; j++) {
+            //                     // eslint-disable-next-line no-redeclare
+            //                     var subInternal = collegeRecord.getSublistValue({
+            //                         sublistId: 'recmachcustrecord1442',
+            //                         fieldId: 'custrecord_wipfli_subject_ie',
+            //                         line: j
+            //                     });
 
-                                var subName = collegeRecord.getSublistValue({
-                                    sublistId: 'recmachcustrecord1442',
-                                    fieldId: 'name',
-                                    line: j
-                                });
+            //                     var subName = collegeRecord.getSublistValue({
+            //                         sublistId: 'recmachcustrecord1442',
+            //                         fieldId: 'name',
+            //                         line: j
+            //                     });
 
-                                console.log("subInternal....",subInternal);
+            //                     console.log("subInternal....",subInternal);
 
-                                // var setSubInternal=Record.setSublistValue({
-                                //     sublistId: 'recmachcustrecord1443',
-                                //     fieldId: 'custrecord_wipfli_subject_ie',
-                                //     line: i,
-                                //     value: subInternal
-                                // });
+            //                     // var setSubInternal=Record.setSublistValue({
+            //                     //     sublistId: 'recmachcustrecord1443',
+            //                     //     fieldId: 'custrecord_wipfli_subject_ie',
+            //                     //     line: i,
+            //                     //     value: subInternal
+            //                     // });
 
-                                var setSubInternal=Record.setCurrentSublistValue({
-                                    sublistId: 'recmachcustrecord1443',
-                                    fieldId:'custrecord_wipfli_subject_ie',
-                                    value: subInternal,
-                                    ignoreFieldChange: false
-                                });
+            //                     var setSubInternal=Record.setCurrentSublistValue({
+            //                         sublistId: 'recmachcustrecord1443',
+            //                         fieldId:'custrecord_wipfli_subject_ie',
+            //                         value: subInternal,
+            //                         ignoreFieldChange: false
+            //                     });
 
-                                var setSubName=Record.setCurrentSublistValue({
-                                    sublistId: 'recmachcustrecord1443',
-                                    fieldId:'name',
-                                    value: subName,
-                                    ignoreFieldChange: false
-                                });
-                                console.log("set..",setSubName);
+            //                     var setSubName=Record.setCurrentSublistValue({
+            //                         sublistId: 'recmachcustrecord1443',
+            //                         fieldId:'name',
+            //                         value: subName,
+            //                         ignoreFieldChange: false
+            //                     });
+            //                     console.log("set..",setSubName);
 
-                                Record.commitLine({
-                                    sublistId: 'recmachcustrecord1443'
-                                });
-                            }
-                        }
-                    }
-                }
-            }
+            //                     Record.commitLine({
+            //                         sublistId: 'recmachcustrecord1443'
+            //                     });
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
 
 
             gradeCalculation(scriptContext);
@@ -254,14 +254,14 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
                 alert("please enter the phone number");
                 return false;
             }
-            var linecount = Record.getLineCount({
-                sublistId: 'recmachcustrecord1443'
-            });
-            console.log("linecount", linecount);
-            if (linecount <= 0) {
-                alert("add atleast one line of subject");
-                return false;
-            }
+            // var linecount = Record.getLineCount({
+            //     sublistId: 'recmachcustrecord1443'
+            // });
+            // console.log("linecount", linecount);
+            // if (linecount <= 0) {
+            //     alert("add atleast one line of subject");
+            //     return false;
+            // }
             return true;
         }
 
@@ -415,6 +415,29 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
             });
             console.log(dataFromRestlet.body);
         }
+        function enterExternalMarks(currentId) {
+            try{
+                log.debug("current rec id in university",currentId);
+                var getUrl=url.resolveScript({
+                    deploymentId:'customdeploy_wipfli_university_suitelet',
+                    scriptId: 'customscript_wipfli_university_suitelet',
+                    params: {
+                        'currentid':currentId
+                    },
+                    returnExternalUrl: false
+
+                });
+                log.debug("url",getUrl);
+                console.log("url",getUrl);
+                window.open(getUrl,'_blank','width=400','height=500');
+            } catch (e) {
+                log.error({
+                    title: "error in enter marks function",
+                    details: e.message
+                });
+                return e.message;
+            }
+        }
 
 
         return {
@@ -422,7 +445,7 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
             fieldChanged: fieldChanged,
             saveRecord: saveRecord,
             message: message,
-            generatePdf:generatePdf
-
+            generatePdf:generatePdf,
+            enterExternalMarks:enterExternalMarks
         };
     });

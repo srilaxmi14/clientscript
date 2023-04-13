@@ -20,30 +20,30 @@ define(['N/record', 'N/search', 'N/ui/serverWidget'],
          */
         const beforeLoad = (scriptContext) => {
             log.debug("testing uni..",'');
-            if(scriptContext.type==scriptContext.UserEventType.CREATE){
-                var form=scriptContext.form;
-                var Unisublist=form.getSublist({
-                    id: 'recmachcustrecord1443'
-                });
-                log.debug("sublist..",Unisublist);
-                var subInternal=Unisublist.getField({
-                    id: 'custrecord_wipfli_subject_ie'
-                });
-                log.debug("sublistInter..",subInternal);
+            // if(scriptContext.type==scriptContext.UserEventType.CREATE){
+            //     var form=scriptContext.form;
+            //     var Unisublist=form.getSublist({
+            //         id: 'recmachcustrecord1443'
+            //     });
+            //     log.debug("sublist..",Unisublist);
+            //     var subInternal=Unisublist.getField({
+            //         id: 'custrecord_wipfli_subject_ie'
+            //     });
+            //     log.debug("sublistInter..",subInternal);
 
-                subInternal.updateDisplayType({
-                    displayType: 'DISABLED'
-                });
+            //     subInternal.updateDisplayType({
+            //         displayType: 'DISABLED'
+            //     });
 
-                var subName=Unisublist.getField({
-                    id: 'name'
-                });
-                log.debug("sublistInter..",subName);
+            //     var subName=Unisublist.getField({
+            //         id: 'name'
+            //     });
+            //     log.debug("sublistInter..",subName);
 
-                subName.updateDisplayType({
-                    displayType: 'DISABLED'
-                });
-            }
+            //     subName.updateDisplayType({
+            //         displayType: 'DISABLED'
+            //     });
+            // }
             
             if(scriptContext.type=='view') {
                 var currentRecId = scriptContext.newRecord.id;
@@ -51,6 +51,16 @@ define(['N/record', 'N/search', 'N/ui/serverWidget'],
                     id: 'custpage_button',
                     label: 'print',
                     functionName:'generatePdf('+currentRecId+')'
+                });
+                scriptContext.form.clientScriptModulePath = './university_cs.js';
+            }
+
+            if(scriptContext.type=='view') {
+                var currentId = scriptContext.newRecord.id;
+                scriptContext.form.addButton({
+                    id: 'custpage_external_button',
+                    label: 'Enter External Marks',
+                    functionName:'enterExternalMarks('+currentId+')'
                 });
                 scriptContext.form.clientScriptModulePath = './university_cs.js';
             }

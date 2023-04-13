@@ -3,12 +3,12 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/record', 'N/search','N/currentRecord'],
+define(['N/record', 'N/search','N/currentRecord', 'N/url'],
 /**
  * @param{record} record
  * @param{search} search
  */
-    function(record, search, currentRecord) {
+    function(record, search, currentRecord,url) {
         var pageMode;
         /**
      * Function to be executed after page is initialized.
@@ -45,12 +45,12 @@ define(['N/record', 'N/search','N/currentRecord'],
             //     sublistId: 'custrecord1442',
             // });
             // for(var i=0;i<linecount;i++) {
-                // var external=record.getSublistField({
-                //     sublistId: 'recmachcustrecord1442',
-                //     fieldId: 'custrecord_wipfli_subject_external',
-                //     line: 3
-                // });
-                // external.isDisabled=true;
+            // var external=record.getSublistField({
+            //     sublistId: 'recmachcustrecord1442',
+            //     fieldId: 'custrecord_wipfli_subject_external',
+            //     line: 3
+            // });
+            // external.isDisabled=true;
             // }
         }
 
@@ -184,13 +184,24 @@ define(['N/record', 'N/search','N/currentRecord'],
      * @since 2015.2
      */
         function saveRecord(scriptContext) {
-            if(pageMode=='create') {
-                var result=searchForDuplicates(scriptContext);
-                console.log("result...",result);
-                return result;
-            } else{
-                return true;
-            }
+            // if(pageMode=='create') {
+            //     var result=searchForDuplicates(scriptContext);
+            //     console.log("result...",result);
+            //     return result;
+            // } else{
+            //     return true;
+            // }
+            // log.debug("saveRecord function called","");
+
+            // var currentRecord=scriptContext.currentRecord;
+            // log.debug("currentrecord",currentRecord);
+            // console.log("currentrecord",currentRecord);
+
+            // var getLineCount=currentRecord.getLineCount({
+            //     sublistId: 'subjects'
+            // });
+            // log.debug("getLineCount",getLineCount);
+            // console.log("getLineCount",getLineCount);
         }
 
         function searchForDuplicates(scriptContext) {
@@ -219,11 +230,38 @@ define(['N/record', 'N/search','N/currentRecord'],
             return true;
         }
 
+        function enterMarks(currentRecId) {
+            try{
+                log.debug("current rec id in cs",currentRecId);
+              
+
+                var getUrl=url.resolveScript({
+                    deploymentId:'customdeploy_wipfli_college_suitlet',
+                    scriptId: 'customscript_wipfli_college_suitlet',
+                    params: {
+                        'currentid':currentRecId
+                    },
+                    returnExternalUrl: false
+
+                });
+                log.debug("url",getUrl);
+                console.log("url",getUrl);
+                window.open(getUrl,'_blank','width=400','height=500');
+            } catch (e) {
+                log.error({
+                    title: "error in generateto function",
+                    details: e.message
+                });
+                return e.message;
+            }
+        }
+
         return {
             pageInit: pageInit,
             fieldChanged: fieldChanged,
             // sublistChanged: sublistChanged,
             validateField: validateField,
-            saveRecord: saveRecord
+            // saveRecord: saveRecord,
+            enterMarks:enterMarks
         };
     });
