@@ -1,0 +1,97 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+ 
+    <head>
+	<#if scriptresults?has_content>
+        <#assign results = scriptresults.results/>
+    </#if>
+        <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale == "zh_CN">
+            <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+        <#elseif .locale == "zh_TW">
+            <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+        <#elseif .locale == "ja_JP">
+            <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+        <#elseif .locale == "ko_KR">
+            <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+        <#elseif .locale == "th_TH">
+            <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+        </#if>
+        <style type="text/css">* {
+            <#if .locale == "zh_CN">
+                font-family: NotoSans, NotoSansCJKsc, sans-serif;
+            <#elseif .locale == "zh_TW">
+                font-family: NotoSans, NotoSansCJKtc, sans-serif;
+            <#elseif .locale == "ja_JP">
+                font-family: NotoSans, NotoSansCJKjp, sans-serif;
+            <#elseif .locale == "ko_KR">
+                font-family: NotoSans, NotoSansCJKkr, sans-serif;
+            <#elseif .locale == "th_TH">
+                font-family: NotoSans, NotoSansThai, sans-serif;
+            <#else>
+                font-family: NotoSans, sans-serif;
+            </#if>
+            }
+			h1 {
+  				font-size: 24pt;
+ 				color: #4CAF50;
+  				margin-bottom: 0.5em;
+			}
+
+			p {
+        		font-size: 12pt;
+        		color: #000000;
+        		margin: 0.8em 0;
+    		}
+
+			table {
+    			border-collapse: collapse;
+    			width: 100%;
+				margin: 0.8em 0;
+  			}
+
+  			th, td {
+   				 padding: 8px;
+    			text-align: left;
+  			}	
+
+  			th {
+    			background-color: #4CAF50;
+    			color: white;
+    			font-size: 18px;
+  			}
+
+  			tr {
+    			background-color: #f2f2f2;
+  			}
+
+
+        </style>
+    </head>
+    <body padding ="0.2in" width="8in" height="4in">
+	<h1>University markscard</h1>
+	<p>Name :${results[0].name}</p>
+	<p>Age :${results[0].age}</p>
+	<p>Dob :${results[0].dob}</p>
+	<p>Email :${results[0].email}</p>
+	<p>Phone :${results[0].phone}</p>
+	<table>
+  <tr>
+    <th>Subject</th>
+    <th>Internal marks</th>
+    <th>External marks</th>
+	<th>Total</th>
+	<th>Grade</th>
+  </tr>
+  <#list results as result>
+  <tr>
+    <td>${result.subjectName}</td>
+    <td>${result.External}</td>
+    <td>${result.Internal}</td>
+	<td>${result.Total}</td>
+    <td>${result.Grade}</td>
+  </tr>
+  	</#list>
+</table>
+    </body>
+</pdf>

@@ -1,0 +1,10 @@
+<advancedpdftemplate scriptid="custtmpl_wipfli_university_pdf" standard="STDTMPLCR_WIPFLI_UNIVERSITY">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>T</preferred>
+  <printtype>CUSTOMRECORD</printtype>
+  <recordtype>[scriptid=customrecord_wipfli_university]</recordtype>
+  <title>Custom University  PDF/HTML Template</title>
+  <trantype>CUSTOM</trantype>
+</advancedpdftemplate>
