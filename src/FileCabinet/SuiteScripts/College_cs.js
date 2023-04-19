@@ -21,37 +21,6 @@ define(['N/record', 'N/search','N/currentRecord', 'N/url'],
      */
         function pageInit(scriptContext) {
             pageMode=scriptContext.mode;
-            // alert("hello");
-            console.log("hello...");
-
-            // var record=scriptContext.currentRecord;
-            // var external=record.getCurrentSublistValue({
-            //     sublistId: 'recmachcustrecord1442',
-            //     fieldId:'custrecord_wipfli_subject_external'
-            // });
-            // external.isDisabled=true;
- 
-            // var record=scriptContext.currentRecord;
-
-            // var external=record.getSublistField({
-            //     fieldId: 'custrecord_wipfli_subject_external',
-            //     sublistId:'recmachcustrecord1442'
-            // });
-            
-
-            // console.log("external",external);
-            // external.isDisabled=true;
-            // var linecount=record.getLineCount({
-            //     sublistId: 'custrecord1442',
-            // });
-            // for(var i=0;i<linecount;i++) {
-            // var external=record.getSublistField({
-            //     sublistId: 'recmachcustrecord1442',
-            //     fieldId: 'custrecord_wipfli_subject_external',
-            //     line: 3
-            // });
-            // external.isDisabled=true;
-            // }
         }
 
         /**
@@ -83,7 +52,6 @@ define(['N/record', 'N/search','N/currentRecord', 'N/url'],
                 record.setValue({
                     fieldId: 'name',
                     value: fullname,
-                    // ignoreFieldChange: boolean
                 });
             } 
 
@@ -184,24 +152,6 @@ define(['N/record', 'N/search','N/currentRecord', 'N/url'],
      * @since 2015.2
      */
         function saveRecord(scriptContext) {
-            // if(pageMode=='create') {
-            //     var result=searchForDuplicates(scriptContext);
-            //     console.log("result...",result);
-            //     return result;
-            // } else{
-            //     return true;
-            // }
-            // log.debug("saveRecord function called","");
-
-            // var currentRecord=scriptContext.currentRecord;
-            // log.debug("currentrecord",currentRecord);
-            // console.log("currentrecord",currentRecord);
-
-            // var getLineCount=currentRecord.getLineCount({
-            //     sublistId: 'subjects'
-            // });
-            // log.debug("getLineCount",getLineCount);
-            // console.log("getLineCount",getLineCount);
         }
 
         function searchForDuplicates(scriptContext) {
@@ -259,9 +209,7 @@ define(['N/record', 'N/search','N/currentRecord', 'N/url'],
         return {
             pageInit: pageInit,
             fieldChanged: fieldChanged,
-            // sublistChanged: sublistChanged,
             validateField: validateField,
-            // saveRecord: saveRecord,
             enterMarks:enterMarks
         };
     });

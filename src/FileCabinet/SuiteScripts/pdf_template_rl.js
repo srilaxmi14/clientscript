@@ -51,27 +51,27 @@ define(['N/currentRecord', 'N/record', 'N/redirect', 'N/search','N/render','N/fi
                         search.createColumn({name: "custrecord_wipfli_vtu_phno", label: "phone number"}),
                         search.createColumn({
                             name: "name",
-                            join: "CUSTRECORD1443",
+                            join: "CUSTRECORD1446",
                             label: "Name"
                         }),
                         search.createColumn({
                             name: "custrecord_wipfli_subject_external",
-                            join: "CUSTRECORD1443",
+                            join: "CUSTRECORD1446",
                             label: "external marks"
                         }),
                         search.createColumn({
                             name: "custrecord_wipfli_subject_ie",
-                            join: "CUSTRECORD1443",
+                            join: "CUSTRECORD1446",
                             label: "Internal marks"
                         }),
                         search.createColumn({
                             name: "custrecord_wipfli_subject_total",
-                            join: "CUSTRECORD1443",
+                            join: "CUSTRECORD1446",
                             label: "total"
                         }),
                         search.createColumn({
                             name: "custrecord_wipfli_subject_grade",
-                            join: "CUSTRECORD1443",
+                            join: "CUSTRECORD1446",
                             label: "grade"
                         })
                     ]
@@ -89,11 +89,11 @@ define(['N/currentRecord', 'N/record', 'N/redirect', 'N/search','N/render','N/fi
                         var studentDob = searchObject[i].getValue({ name: "custrecord_wipfli_vtu_dob", label: "DOB"});
                         var studentEmail = searchObject[i].getValue({ name: "custrecord_wipfli_vtu_email", label: "email"});
                         var studentPhone = searchObject[i].getValue({name: "custrecord_wipfli_vtu_phno", label: "phone number"});
-                        var subjectName = searchObject[i].getValue({ name: "name",join: "CUSTRECORD1443"});
-                        var subjectExternal = searchObject[i].getValue({  name: "custrecord_wipfli_subject_external",join: "CUSTRECORD1443"});
-                        var subjectInternal = searchObject[i].getValue({name: "custrecord_wipfli_subject_ie",join: "CUSTRECORD1443",});
-                        var subjectTotal = searchObject[i].getValue({ name: "custrecord_wipfli_subject_total",join: "CUSTRECORD1443"});
-                        var subjectGrade = searchObject[i].getValue({ name: "custrecord_wipfli_subject_grade",join: "CUSTRECORD1443"});
+                        var subjectName = searchObject[i].getValue({ name: "name",join: "CUSTRECORD1446"});
+                        var subjectExternal = searchObject[i].getValue({  name: "custrecord_wipfli_subject_external",join: "CUSTRECORD1446"});
+                        var subjectInternal = searchObject[i].getValue({name: "custrecord_wipfli_subject_ie",join: "CUSTRECORD1446",});
+                        var subjectTotal = searchObject[i].getValue({ name: "custrecord_wipfli_subject_total",join: "CUSTRECORD1446"});
+                        var subjectGrade = searchObject[i].getValue({ name: "custrecord_wipfli_subject_grade",join: "CUSTRECORD1446"});
                         
                         studentDetail.push({
                             name: studentname,
