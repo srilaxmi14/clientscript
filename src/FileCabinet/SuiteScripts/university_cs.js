@@ -41,8 +41,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
         function fieldChanged(scriptContext) {
             console.log(scriptContext);
             autoPopulate(scriptContext);
-            // autoPopulateMark(scriptContext);
-
             var Record = scriptContext.currentRecord;
 
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_student_active') {
@@ -80,97 +78,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
                     ignoreFieldChange: false
                 });
             }
-
-            // if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
-            //     var nameval = Record.getValue({
-            //         fieldId: 'custrecord_wipfli_vtu_name'
-            //     });
-            //     console.log(nameval);
-            //     // eslint-disable-next-line camelcase
-            //     var customrecord_wipfli_collegeSearchObj = search.create({
-            //         type: "customrecord_wipfli_college",
-            //         filters:
-            //                 [
-            //                     ["internalid", "is", nameval]
-            //                 ],
-            //         columns:
-            //                 [
-            //                     search.createColumn({name: "internalid", label: "Internal ID"})
-            //                 ]
-            //     });
-
-            //     var searchResult = customrecord_wipfli_collegeSearchObj.run();
-            //     console.log("searchresult", searchResult);
-
-            //     var searchObject = searchResult.getRange(0, 1000);
-            //     console.log("search object", searchObject.length);
-
-            //     console.log("clgg....");
-            //     if(searchObject.length>0) {
-            //         for (var i = 0; i < searchObject.length; i++) {
-            //             var bioDataid = searchObject[i].getValue({ name: "internalid" });
-            //             var collegeRecord = record.load({
-            //                 type: 'customrecord_wipfli_college',
-            //                 id: bioDataid
-            //             });
-
-            //             console.log("clgrec..", collegeRecord);
-
-            //             var sublistCount = collegeRecord.getLineCount({
-            //                 sublistId: 'recmachcustrecord1442',
-            //             });
-            //             console.log("linecount..",sublistCount);
-            
-
-            //             if (sublistCount > 0) {
-            //                 for (var j = 0; j < sublistCount; j++) {
-            //                     // eslint-disable-next-line no-redeclare
-            //                     var subInternal = collegeRecord.getSublistValue({
-            //                         sublistId: 'recmachcustrecord1442',
-            //                         fieldId: 'custrecord_wipfli_subject_ie',
-            //                         line: j
-            //                     });
-
-            //                     var subName = collegeRecord.getSublistValue({
-            //                         sublistId: 'recmachcustrecord1442',
-            //                         fieldId: 'name',
-            //                         line: j
-            //                     });
-
-            //                     console.log("subInternal....",subInternal);
-
-            //                     // var setSubInternal=Record.setSublistValue({
-            //                     //     sublistId: 'recmachcustrecord1443',
-            //                     //     fieldId: 'custrecord_wipfli_subject_ie',
-            //                     //     line: i,
-            //                     //     value: subInternal
-            //                     // });
-
-            //                     var setSubInternal=Record.setCurrentSublistValue({
-            //                         sublistId: 'recmachcustrecord1443',
-            //                         fieldId:'custrecord_wipfli_subject_ie',
-            //                         value: subInternal,
-            //                         ignoreFieldChange: false
-            //                     });
-
-            //                     var setSubName=Record.setCurrentSublistValue({
-            //                         sublistId: 'recmachcustrecord1443',
-            //                         fieldId:'name',
-            //                         value: subName,
-            //                         ignoreFieldChange: false
-            //                     });
-            //                     console.log("set..",setSubName);
-
-            //                     Record.commitLine({
-            //                         sublistId: 'recmachcustrecord1443'
-            //                     });
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
-
-
             gradeCalculation(scriptContext);
         }
 
@@ -211,35 +118,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
 
                     });
                 }
-                
-                // var lineCount=record.getLineCount({
-                //     sublistId: 'recmachcustrecord1443'
-                // });
-
-                // for(let i=0;i<lineCount.length;i++) {
-                //     let total=record.getSublistValue({
-                //         sublistId: 'recmachcustrecord1443',
-                //         fieldId: 'custrecord_wipfli_subject_total',
-                //         line:i
-                //     });
-                //     let grade;
-
-                //     if (total < 45) {
-                //         grade="fail";
-                //     } else if (total >= 45 && total <= 59) {
-                //         grade="pass";
-                //     } else if (total >= 60 && total <= 70) {
-                //         grade="firstclass";
-                //     } else if (total > 70) {
-                //         grade="distinction";
-                //     }
-                //     record.setSublistValue({
-                //         sublistId: 'recmachcustrecord1443',
-                //         fieldId: 'custrecord_wipfli_subject_grade',
-                //         value: grade,
-    
-                //     });
-                // }
             }
         }
 
@@ -254,14 +132,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
                 alert("please enter the phone number");
                 return false;
             }
-            // var linecount = Record.getLineCount({
-            //     sublistId: 'recmachcustrecord1443'
-            // });
-            // console.log("linecount", linecount);
-            // if (linecount <= 0) {
-            //     alert("add atleast one line of subject");
-            //     return false;
-            // }
             return true;
         }
 
@@ -281,61 +151,6 @@ define(['N/record', 'N/url', 'N/search', 'N/currentRecord', 'N/format','N/https'
             });
         }
 
-        //by using search.lookupfield
-
-        // function autoPopulate(scriptContext)
-        // {  var record = currentRecord.get();
-        //     if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {
-        //     var nameval = record.getValue({
-        //         fieldId: 'custrecord_wipfli_vtu_name'
-        //     });
-
-        //     var searchval = search.lookupFields({
-        //         type: 'customrecord_wipfli_college',
-        //         id: nameval,
-        //         columns: ['custrecord_wipfli_student_ages', 'custrecord_wipfli_student_email', 'custrecord_wipfli_student_phno', 'custrecord_wipfli_student_dob']
-
-        //     })
-        //     log.debug(searchval);
-
-        //     var searchField = searchval['custrecord_wipfli_student_ages']
-        //     var searchemail = searchval['custrecord_wipfli_student_email']
-        //     var searchphno = searchval['custrecord_wipfli_student_phno']
-        //     var searchdob = searchval['custrecord_wipfli_student_dob']
-        //    console.log("date format:",searchdob);
-        //    log.debug("date:",searchdob)
-        //     var date = new Date(searchdob)
-
-
-        //     log.debug(searchField);
-
-        //     record.setValue({
-        //         fieldId: 'custrecord_wipfli_student_age',
-        //         value: searchField
-
-        //     })
-
-
-        //     record.setValue({
-        //         fieldId: 'custrecord_wipfli_vtu_email',
-        //         value: searchemail
-
-        //     })
-        //     record.setValue({
-        //         fieldId: 'custrecord_wipfli_vtu_phno',
-        //         value: searchphno
-
-        //     })
-        //     record.setValue({
-        //         fieldId: 'custrecord_wipfli_vtu_dob',
-        //         value: date
-
-        //     })
-
-
-        // }}
-
-        //by using search.create
         function autoPopulate(scriptContext) {
             var record = scriptContext.currentRecord;
             if (scriptContext.fieldId == 'custrecord_wipfli_vtu_name') {

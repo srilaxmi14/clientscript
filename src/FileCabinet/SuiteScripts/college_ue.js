@@ -20,7 +20,6 @@ define(['N/record', 'N/search','N/ui/serverWidget'],
         const beforeLoad = (scriptContext) => {
             log.debug("testing","");
             try{
-                // var record=scriptContext.newRecord;
                 if(scriptContext.type==scriptContext.UserEventType.CREATE){
                     var form=scriptContext.form;
                     var sublist=form.getSublist({
@@ -70,54 +69,7 @@ define(['N/record', 'N/search','N/ui/serverWidget'],
                 });
                 return e.message;
             }
-        
-
-            // if(mode=='edit') {
-            //     scriptContext.form.addButton({
-            //         id: 'custpage_button',
-            //         label: 'message',
-            //         functionName:'message()'
-            //     });
-            // }
-            // var record=scriptContext.newRecord;
-            // var external=record.getSublistField({
-            //     sublistId: 'recmachcustrecord1442',
-            //     fieldId: 'custrecord_wipfli_subject_external',
-            //     line: 3
-            // });
-            
-
-            // var external=record.getCurrentSublistField({
-            //     fieldId: 'custrecord_wipfli_subject_external',
-            //     sublistId: 'recmachcustrecord1442'
-            // });
-            // external.isDisabled=true;
         };
 
-        /**
-         * Defines the function definition that is executed before record is submitted.
-         * @param {Object} scriptContext
-         * @param {Record} scriptContext.newRecord - New record
-         * @param {Record} scriptContext.oldRecord - Old record
-         * @param {string} scriptContext.type - Trigger type; use values from the context.UserEventType enum
-         * @since 2015.2
-         */
-        const beforeSubmit = (scriptContext) => {
-            
-
-        };
-
-        /**
-         * Defines the function definition that is executed after record is submitted.
-         * @param {Object} scriptContext
-         * @param {Record} scriptContext.newRecord - New record
-         * @param {Record} scriptContext.oldRecord - Old record
-         * @param {string} scriptContext.type - Trigger type; use values from the context.UserEventType enum
-         * @since 2015.2
-         */
-        const afterSubmit = (scriptContext) => {
-
-        };
-
-        return {beforeLoad, beforeSubmit, afterSubmit};
+        return {beforeLoad};
     });
